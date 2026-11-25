@@ -1,0 +1,8 @@
+# FastAPI is the HTTP app. The four verbs are routes in main.py.
+fastapi==0.115.6
+# uvicorn is the process that listens on port 8000.
+uvicorn==0.32.1
+# SQLAlchemy turns a route into a SQL statement and sends it to Postgres.
+sqlalchemy==2.0.30
+# psycopg2 is the driver that speaks the Postgres wire protocol.
+psycopg2-binary==2.9.9
