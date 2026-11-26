@@ -6,3 +6,6 @@ uvicorn==0.32.1
 sqlalchemy==2.0.30
 # psycopg2 is the driver that speaks the Postgres wire protocol.
 psycopg2-binary==2.9.9
+# python-dotenv reads `.env` when the API is started on the laptop.
+# Compose already injects those names inside the container.
+python-dotenv==1.0.1

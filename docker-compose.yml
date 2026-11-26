@@ -19,8 +19,12 @@ services:
       # taken, start with: API_PORT=8035 docker compose up --build
       - "${API_PORT:-8000}:8000"
     environment:
-      # Hostname `db` is the Compose service below, not the laptop.
-      DATABASE_URL: postgresql://postgres:devpass@db:5432/appdb
+      # Same names as `.env`. The host stays `db`, the service below.
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
     depends_on:
       db:
         condition: service_healthy
@@ -30,9 +34,9 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: devpass
-      POSTGRES_DB: appdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -40,7 +44,7 @@ services:
     healthcheck:
       # Compose starts the API only after Postgres accepts connections.
       # Without this, the first request can run before the table exists.
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 2s
       timeout: 3s
       retries: 10
